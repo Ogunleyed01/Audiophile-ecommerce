@@ -1,7 +1,6 @@
 import { Link } from 'react-router-dom'
 import Button from '../components/Button'
 
-import heroMobile from '../assets/shared/mobile/image-xx99-mark-two-headphones.jpg'
 import prod1m from '../assets/product-xx99-mark-two-headphones/mobile/image-product.jpg'
 import prod1t from '../assets/product-xx99-mark-two-headphones/tablet/image-product.jpg'
 import prod1d from '../assets/product-xx99-mark-two-headphones/desktop/image-product.jpg'

@@ -1,5 +1,5 @@
 import { ConvexHttpClient } from 'convex/browser'
-import type { api } from '../../../convex/_generated/api'
+import { api } from '../../../convex/_generated/api'
 import type { Order } from '../../types/order'
 
 // Initialize Convex client - set VITE_CONVEX_URL in your .env file
@@ -46,7 +46,13 @@ export async function getOrderFromBackend(orderId: string): Promise<Order | null
     }
 
     const order = await convex.query(api.orders.getOrder, { orderId: orderId as any })
-    return order
+    if (!order) return null
+    
+    // Ensure status is properly typed to match Order type
+    return {
+      ...order,
+      status: (order.status === 'confirmed' || order.status === 'pending' ? order.status : 'confirmed') as 'confirmed' | 'pending'
+    }
   } catch (error) {
     console.error('Error fetching order from Convex:', error)
     return null

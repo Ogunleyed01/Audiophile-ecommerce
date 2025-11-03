@@ -28,9 +28,12 @@ export const sendOrderConfirmation = action({
     }),
     orderUrl: v.string(),
   },
-  handler: async (ctx, args) => {
+  handler: async (_ctx, args) => {
     // Initialize Resend inside the handler to avoid module-level initialization issues
-    const resendApiKey = process.env.RESEND_API_KEY
+    // Access environment variables in Convex actions
+    // In Convex, environment variables are available via process.env in Node.js runtime
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const resendApiKey: string | undefined = (globalThis as any).process?.env?.RESEND_API_KEY
     if (!resendApiKey) {
       console.warn('RESEND_API_KEY not set, email will not be sent')
       return { success: false, error: 'Email service not configured' }

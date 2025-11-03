@@ -10,7 +10,7 @@ type Props = {
 }
 
 export default function CartModal({ open, onClose }: Props) {
-  const { items, updateQuantity, removeItem, clearCart, getTotalPrice } = useCart()
+  const { items, updateQuantity, clearCart, getTotalPrice } = useCart()
 
   const imagePath = (path: string) => path.replace('./assets/', '../assets/')
 

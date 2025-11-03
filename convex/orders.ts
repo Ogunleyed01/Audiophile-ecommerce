@@ -84,7 +84,7 @@ export const getOrder = query({
         tax: order.tax,
         grandTotal: order.grandTotal,
       },
-      status: order.status,
+      status: order.status as 'confirmed' | 'pending',
       createdAt: order.createdAt,
     }
   },
