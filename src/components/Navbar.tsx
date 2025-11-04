@@ -3,7 +3,7 @@ import { Link, useLocation } from 'react-router-dom'
 import ResponsiveMenu from './ResponsiveMenu'
 import CartModal from './CartModal'
 import { useCart } from '../context/CartContext'
-import cartIcon from '../assets/carts.svg'
+import cartIcon from '../assets/shared/desktop/icon-cart.svg'
 
 export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false)

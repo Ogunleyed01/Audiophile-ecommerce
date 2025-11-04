@@ -14,7 +14,7 @@ export default function QuantitySelector({ quantity, onIncrease, onDecrease }: P
       >
         <span className="text-lg font-bold">−</span>
       </button>
-      <span className="text-[13px] font-bold">{quantity}</span>
+      <span className="text-[13px] font-bold text-black">{quantity}</span>
       <button
         onClick={onIncrease}
         className="flex h-full w-10 items-center justify-center text-black/50 hover:text-[#D87D4A]"

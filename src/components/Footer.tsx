@@ -1,4 +1,8 @@
 import { Link } from 'react-router-dom'
+import logo from '../assets/shared/desktop/logo.svg'
+import facebookIcon from '../assets/shared/desktop/icon-facebook.svg'
+import twitterIcon from '../assets/shared/desktop/icon-twitter.svg'
+import instagramIcon from '../assets/shared/desktop/icon-instagram.svg'
 
 export default function Footer() {
   return (
@@ -6,7 +10,9 @@ export default function Footer() {
       <div className="mx-auto max-w-[1110px] px-4 sm:px-6 lg:px-8 py-10">
         <div className="h-1 w-24 bg-[#D87D4A]"></div>
         <div className="mt-8 flex flex-col items-center gap-8 sm:flex-row sm:justify-between">
-          <Link to="/" className="text-xl font-extrabold tracking-[2px] uppercase">Audiophile</Link>
+          <Link to="/" className="text-xl font-extrabold tracking-[2px] uppercase">
+            <img src={logo} alt="Audiophile" className="h-8" />
+          </Link>
           <nav className="flex flex-col items-center gap-4 sm:flex-row sm:gap-8 text-[13px] tracking-[2px] uppercase">
             <Link to="/" className="hover:text-[#D87D4A]">Home</Link>
             <Link to="/headphones" className="hover:text-[#D87D4A]">Headphones</Link>
@@ -15,14 +21,20 @@ export default function Footer() {
           </nav>
         </div>
         <p className="mt-8 text-center sm:text-left text-white/70">
-          Audiophile is an all in one stop to fulfill your audio needs. We're a small team of music lovers and sound specialists who are devoted to helping you get the most out of personal audio. Come and visit our demo facility - we’re open 7 days a week.
+          Audiophile is an all in one stop to fulfill your audio needs. We're a small team of music lovers and sound specialists who are devoted to helping you get the most out of personal audio. Come and visit our demo facility - we're open 7 days a week.
         </p>
         <div className="mt-10 flex flex-col items-center justify-between gap-6 sm:flex-row">
           <p className="text-white/50">Copyright 2025. All Rights Reserved</p>
           <div className="flex items-center gap-4">
-            <a aria-label="Facebook" href="#" className="hover:text-[#D87D4A]">FB</a>
-            <a aria-label="Twitter" href="#" className="hover:text-[#D87D4A]">TW</a>
-            <a aria-label="Instagram" href="#" className="hover:text-[#D87D4A]">IG</a>
+            <a aria-label="Facebook" href="#" className="hover:opacity-70 transition-opacity">
+              <img src={facebookIcon} alt="" className="h-6 w-6" />
+            </a>
+            <a aria-label="Twitter" href="#" className="hover:opacity-70 transition-opacity">
+              <img src={twitterIcon} alt="" className="h-6 w-6" />
+            </a>
+            <a aria-label="Instagram" href="#" className="hover:opacity-70 transition-opacity">
+              <img src={instagramIcon} alt="" className="h-6 w-6" />
+            </a>
           </div>
         </div>
       </div>
