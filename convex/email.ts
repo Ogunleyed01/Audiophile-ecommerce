@@ -29,17 +29,17 @@ export const sendOrderConfirmation = action({
     orderUrl: v.string(),
   },
   handler: async (_ctx, args) => {
-    // Initialize Resend inside the handler to avoid module-level initialization issues
-    // Access environment variables in Convex actions
-    // In Convex, environment variables are available via process.env in Node.js runtime
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const resendApiKey: string | undefined = (globalThis as any).process?.env?.RESEND_API_KEY
-    if (!resendApiKey) {
+    'use node'
+    const env = (globalThis as unknown as { [k: string]: unknown } & { process?: { env?: Record<string, string | undefined> } }).process?.env || {}
+    const apiKey = env.RESEND_API_KEY
+    const fromAddress = env.RESEND_FROM || 'onboarding@resend.dev'
+
+    if (!apiKey) {
       console.warn('RESEND_API_KEY not set, email will not be sent')
       return { success: false, error: 'Email service not configured' }
     }
 
-    const resend = new Resend(resendApiKey)
+    const resend = new Resend(apiKey)
 
     // Generate HTML email template
     const itemsHtml = args.items
@@ -143,17 +143,18 @@ export const sendOrderConfirmation = action({
 
     try {
       const { data, error } = await resend.emails.send({
-        from: 'Audiophile <noreply@audiophile.com>',
+        from: `Audiophile <${fromAddress}>`,
         to: args.to,
         subject: `Order Confirmation - ${args.orderId}`,
-        html: html,
+        html,
       })
-
       if (error) {
         console.error('Resend error:', error)
-        return { success: false, error: error.message }
+        const message = typeof (error as unknown) === 'object' && error && 'message' in (error as Record<string, unknown>)
+          ? String((error as Record<string, unknown>).message)
+          : 'Failed to send email'
+        return { success: false, error: message }
       }
-
       return { success: true, messageId: data?.id }
     } catch (error) {
       console.error('Email sending error:', error)

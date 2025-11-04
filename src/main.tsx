@@ -4,10 +4,16 @@ import { BrowserRouter } from 'react-router-dom'
 import './index.css'
 import App from './App.tsx'
 
+import {ConvexProvider, ConvexReactClient } from 'convex/react';
+
+const convex = new ConvexReactClient(import.meta.env.VITE_CONVEX_URL as string)
+
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <BrowserRouter>
-      <App />
-    </BrowserRouter>
+    <ConvexProvider client={convex}>
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
+    </ConvexProvider>
   </StrictMode>,
 )

@@ -15,8 +15,10 @@ const convex = convexUrl ? new ConvexHttpClient(convexUrl) : null
 export async function saveOrderToBackend(order: Order): Promise<string> {
   try {
     if (!convex) {
-      // Fallback: return a mock ID if Convex is not configured
-      console.warn('Convex not configured, using mock order ID')
+      if (import.meta.env.PROD) {
+        throw new Error('Convex not configured. Set VITE_CONVEX_URL in your environment.')
+      }
+      console.warn('Convex not configured in dev, using mock order ID')
       return `mock-${Date.now()}`
     }
 

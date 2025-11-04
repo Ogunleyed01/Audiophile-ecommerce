@@ -1,3 +1,4 @@
+// import { useQuery  } from "convex/react";
 import { Routes, Route, Navigate } from 'react-router-dom'
 import { CartProvider } from './context/CartContext'
 import Navbar from './components/Navbar'

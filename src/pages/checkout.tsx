@@ -59,6 +59,7 @@ export default function CheckoutPage() {
   const [orderId, setOrderId] = useState<string | null>(null)
   const [isSubmittingOrder, setIsSubmittingOrder] = useState(false)
   const [submitError, setSubmitError] = useState<string | null>(null)
+  const [emailStatus, setEmailStatus] = useState<null | 'success' | 'failed'>(null)
 
   const form = useForm<FormValues>({ 
     resolver: zodResolver(schema), 
@@ -88,6 +89,7 @@ export default function CheckoutPage() {
   const onSubmit = async (values: FormValues) => {
     setIsSubmittingOrder(true)
     setSubmitError(null)
+    setEmailStatus(null)
 
     try {
       // Validate cart is not empty
@@ -150,7 +152,7 @@ export default function CheckoutPage() {
       const orderUrl = `${window.location.origin}/order-confirmation?orderId=${savedOrderId}`
       
       try {
-        await sendOrderConfirmationEmail({
+        const emailResult = await sendOrderConfirmationEmail({
           to: values.email,
           orderId: savedOrderId,
           customerName: values.name,
@@ -163,9 +165,11 @@ export default function CheckoutPage() {
           shipping: orderData.shipping,
           orderUrl,
         })
+        setEmailStatus(emailResult.success ? 'success' : 'failed')
       } catch (emailError) {
         // Log email error but don't fail the order
         console.error('Failed to send email:', emailError)
+        setEmailStatus('failed')
       }
 
       setOrderId(savedOrderId)
@@ -341,6 +345,16 @@ export default function CheckoutPage() {
                 <p className="text-sm font-medium">{submitError}</p>
               </div>
             )}
+          {emailStatus === 'success' && (
+            <div className="mt-4 rounded-lg bg-green-50 p-4 text-green-700" role="status">
+              <p className="text-sm font-medium">Confirmation email sent.</p>
+            </div>
+          )}
+          {emailStatus === 'failed' && (
+            <div className="mt-4 rounded-lg bg-yellow-50 p-4 text-yellow-800" role="status">
+              <p className="text-sm font-medium">Order confirmed but email failed to send.</p>
+            </div>
+          )}
             <Button
               type="submit"
               onClick={handleSubmit(onSubmit)}
@@ -365,6 +379,7 @@ export default function CheckoutPage() {
         }} 
         orderTotal={orderTotal}
         orderId={orderId}
+        emailStatus={emailStatus}
       />
     </>
   )

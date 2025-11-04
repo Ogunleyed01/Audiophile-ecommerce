@@ -8,9 +8,10 @@ type Props = {
   onClose: () => void
   orderTotal: number
   orderId?: string | null
+  emailStatus?: 'success' | 'failed' | null
 }
 
-export default function OrderConfirmationModal({ open, onClose, orderTotal }: Props) {
+export default function OrderConfirmationModal({ open, onClose, orderTotal, emailStatus }: Props) {
   const { items } = useCart()
 
   const imagePath = (path: string) => path.replace('./assets/', '../assets/')
@@ -40,9 +41,20 @@ export default function OrderConfirmationModal({ open, onClose, orderTotal }: Pr
           </div>
         </div>
 
-        {/* Heading */}
+            {/* Heading */}
         <h2 className="mb-4 text-center text-2xl font-bold uppercase tracking-[1px]">Thank You For Your Order</h2>
         <p className="mb-6 text-center text-[15px] text-black/50">You will receive an email confirmation shortly.</p>
+
+            {emailStatus === 'success' && (
+              <div className="mb-4 rounded-md bg-green-50 p-3 text-center text-green-700">
+                <span className="text-sm font-medium">Confirmation email sent.</span>
+              </div>
+            )}
+            {emailStatus === 'failed' && (
+              <div className="mb-4 rounded-md bg-yellow-50 p-3 text-center text-yellow-800">
+                <span className="text-sm font-medium">Order confirmed but email failed to send.</span>
+              </div>
+            )}
 
         {/* Order Summary */}
         <div className="mb-6 overflow-hidden rounded-lg">
